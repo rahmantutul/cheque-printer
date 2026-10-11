@@ -4,6 +4,9 @@
 
 @section('page')
     @php($currency = app(\App\Services\CurrencyService::class)->current())
+    <a href="{{ route('user.cheques.index') }}" class="text-sm text-text-muted hover:text-text">
+        ← Back to Cheques
+    </a>
     <x-page-header title="Cheque Details" subtitle="Review payment information before printing" />
     <x-card>
         <dl class="grid gap-5 sm:grid-cols-2">
@@ -26,14 +29,24 @@
                 <div class="sm:col-span-2"><dt class="text-sm text-text-muted">Memo / Reference</dt><dd class="mt-1 font-medium text-text">{{ $cheque->memo }}</dd></div>
             @endif
         </dl>
+        <dl class="mt-6 grid gap-5 border-t border-border pt-5 sm:grid-cols-2">
+            <div><dt class="text-sm text-text-muted">Bank</dt><dd class="mt-1 font-medium text-text">{{ $cheque->bank->name }}</dd></div>
+            <div><dt class="text-sm text-text-muted">Template</dt><dd class="mt-1 font-medium text-text">{{ $cheque->template?->name ?? '—' }}</dd></div>
+            <div><dt class="text-sm text-text-muted">Created</dt><dd class="mt-1 font-medium text-text">{{ $cheque->created_at->format('d M Y H:i') }}</dd></div>
+            <div><dt class="text-sm text-text-muted">Printed at</dt><dd class="mt-1 font-medium text-text">{{ $cheque->printed_at?->format('d M Y H:i') ?? '—' }}</dd></div>
+        </dl>
     </x-card>
     @if ($cheque->status === 'draft')
         <div class="mt-6 flex flex-wrap gap-3">
-            <a href="{{ route('user.cheques.edit', $cheque) }}" class="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white">Edit</a>
+            <x-btn-secondary href="{{ route('user.cheques.edit', $cheque) }}">Edit</x-btn-secondary>
+            <form method="POST" action="{{ route('user.cheques.mark-printed', $cheque) }}" class="inline">
+                @csrf
+                <x-btn-primary type="submit">Mark as Printed</x-btn-primary>
+            </form>
             <form method="POST" action="{{ route('user.cheques.destroy', $cheque) }}" id="delete-cheque-{{ $cheque->id }}">
                 @csrf
                 @method('DELETE')
-                <button type="button" class="inline-flex items-center rounded-md bg-danger px-4 py-2 text-sm font-medium text-white" @click="$dispatch('open-confirm', { action: 'delete-cheque-{{ $cheque->id }}' })">Delete</button>
+                <x-btn-danger type="button" @click="$dispatch('open-confirm', { action: 'delete-cheque-{{ $cheque->id }}' })">Delete</x-btn-danger>
             </form>
         </div>
     @endif
