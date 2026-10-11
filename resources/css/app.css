@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none !important;
+}
+
+@layer base {
+    html {
+        @apply scroll-smooth;
+    }
+
+    body {
+        @apply font-sans text-text bg-surface-alt antialiased;
+    }
+
+    :focus-visible {
+        @apply outline-none ring-2 ring-primary-dark ring-offset-2;
+    }
+}
+
+@layer components {
+    .form-control {
+        @apply block w-full rounded border-border bg-surface text-sm text-text shadow-sm placeholder:text-text-muted focus:border-primary-dark focus:ring-primary-dark disabled:cursor-not-allowed disabled:bg-surface-alt disabled:opacity-60;
+    }
+
+    .form-control-error {
+        @apply border-danger focus:border-danger focus:ring-danger;
+    }
+}

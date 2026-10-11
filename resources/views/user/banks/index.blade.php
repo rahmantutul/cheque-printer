@@ -1,0 +1,8 @@
+@extends('layouts.user')
+
+@section('title', 'My Banks — Cheque Printing System')
+
+@section('page')
+    <x-page-header title="My Banks" subtitle="Find the banks you use for business payments" />
+    <x-card><form method="GET" class="mb-6"><div class="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto_auto] sm:items-end"><div class="min-w-0 flex-1"><label for="bank-search" class="mb-2 block text-sm font-medium text-text">Search banks</label><input id="bank-search" name="search" type="search" value="{{ request('search') }}" placeholder="Search by bank name or country" class="form-control w-full"></div><div class="hidden sm:block" aria-hidden="true"></div><div class="flex gap-2"><x-btn-primary type="submit">Search</x-btn-primary>@if(request('search'))<x-btn-secondary href="{{ route('user.banks.index') }}">Clear</x-btn-secondary>@endif</div></div></form>@if($banks->isEmpty())<x-empty-state title="No banks found" description="Try another search term." icon="building-library" />@else<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">@foreach($banks as $bank)<a href="{{ route('user.banks.show',$bank) }}" class="rounded-lg border border-border p-4 transition hover:-translate-y-0.5 hover:shadow-md">@if($bank->logo_url)<img src="{{ $bank->logo_url }}" alt="{{ $bank->name }} logo" class="mb-4 h-16 w-16 rounded object-contain">@else<div class="mb-4 flex h-16 w-16 items-center justify-center rounded bg-surface-alt text-xl font-semibold">{{ mb_substr($bank->name,0,1) }}</div>@endif<h2 class="font-semibold">{{ $bank->name }}</h2><p class="text-sm text-text-muted">{{ $bank->country }}</p><p class="mt-2 text-xs text-text-muted">{{ $bank->templates_count }} template(s)</p></a>@endforeach</div><div class="mt-6">{{ $banks->links() }}</div>@endif</x-card>
+@endsection
