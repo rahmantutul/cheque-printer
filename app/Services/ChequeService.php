@@ -25,8 +25,7 @@ class ChequeService
             $template = ChequeTemplate::findOrFail($data['template_id']);
             $full = $this->amounts->toEnglish(
                 (float) $data['amount'],
-                (string) config('cheque.currency_word', 'Taka'),
-                (string) config('cheque.minor_currency_word', 'Paisa'),
+                null,
             );
             $lines = $this->splitAmountInWords($full, $this->usesTwoLines($template));
 
@@ -46,8 +45,7 @@ class ChequeService
             $template = ChequeTemplate::findOrFail($data['template_id']);
             $full = $this->amounts->toEnglish(
                 (float) $data['amount'],
-                (string) config('cheque.currency_word', 'Taka'),
-                (string) config('cheque.minor_currency_word', 'Paisa'),
+                null,
             );
             $lines = $this->splitAmountInWords($full, $this->usesTwoLines($template));
 

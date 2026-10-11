@@ -3,11 +3,8 @@
 declare(strict_types=1);
 
 return [
-    'currency_code' => 'BDT',
-    'currency_word' => 'Taka',
-    'minor_currency_word' => 'Paisa',
-    'currency_symbol' => '৳',
-    'currency_position' => 'before',
+    'default_currency' => env('CHEQUE_CURRENCY', 'BDT'),
+    'currencies' => require __DIR__.'/currencies.php',
     'default_width_mm' => 203.00,
     'default_height_mm' => 90.00,
     'upload_paths' => [

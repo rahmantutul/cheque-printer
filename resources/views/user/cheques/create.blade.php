@@ -55,7 +55,7 @@
             </div>
 
             <div class="mt-4">
-                <x-input name="amount" label="Amount" type="number" step="0.01" min="0.01"
+                <x-input name="amount" label="Amount" type="number" step="0.01" min="0.01" class="text-right font-mono"
                     x-model="amount" @input.debounce.400ms="fetchWords()" :required="true" />
                 <p x-show="pending" x-cloak class="mt-2 text-sm text-text-muted">Calculating...</p>
                 <p x-show="error" x-cloak class="mt-2 text-sm text-danger" x-text="error"></p>

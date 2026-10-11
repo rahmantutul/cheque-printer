@@ -3,14 +3,15 @@
 @section('title', 'Cheque Details — Cheque Printing System')
 
 @section('page')
+    @php($currency = app(\App\Services\CurrencyService::class)->current())
     <x-page-header title="Cheque Details" subtitle="Review payment information before printing" />
     <x-card>
         <dl class="grid gap-5 sm:grid-cols-2">
             <div><dt class="text-sm text-text-muted">Payee</dt><dd class="mt-1 font-medium text-text">{{ $cheque->payee_name }}</dd></div>
             <div>
                 <dt class="text-sm text-text-muted">Amount</dt>
-                <dd class="mt-1 font-medium text-text">{{ $cheque->formatted_amount }}</dd>
-                <p class="mt-1 text-xs text-text-muted">Currency: {{ config('cheque.currency_code') }}</p>
+                <dd class="mt-1 font-medium text-text">{{ $currency['position'] === 'before' ? $currency['symbol'].' ' : '' }}{{ $cheque->formatted_amount }}{{ $currency['position'] === 'after' ? ' '.$currency['symbol'] : '' }}</dd>
+                <p class="mt-1 text-xs text-text-muted">Currency: {{ $currency['name'] }}</p>
             </div>
             <div><dt class="text-sm text-text-muted">Cheque date</dt><dd class="mt-1 font-medium text-text">{{ $cheque->cheque_date->format('d M Y') }}</dd></div>
             <div><dt class="text-sm text-text-muted">Status</dt><dd class="mt-1 font-medium text-text">{{ ucfirst($cheque->status) }}</dd></div>
