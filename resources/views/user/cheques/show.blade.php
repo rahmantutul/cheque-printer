@@ -27,4 +27,14 @@
             @endif
         </dl>
     </x-card>
+    @if ($cheque->status === 'draft')
+        <div class="mt-6 flex flex-wrap gap-3">
+            <a href="{{ route('user.cheques.edit', $cheque) }}" class="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white">Edit</a>
+            <form method="POST" action="{{ route('user.cheques.destroy', $cheque) }}" id="delete-cheque-{{ $cheque->id }}">
+                @csrf
+                @method('DELETE')
+                <button type="button" class="inline-flex items-center rounded-md bg-danger px-4 py-2 text-sm font-medium text-white" @click="$dispatch('open-confirm', { action: 'delete-cheque-{{ $cheque->id }}' })">Delete</button>
+            </form>
+        </div>
+    @endif
 @endsection
